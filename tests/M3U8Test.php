@@ -3,6 +3,7 @@ namespace App\Test;
 
 use Bob\M3U8\Index\M3U8;
 use Bob\M3U8\Session;
+use Bob\M3U8\Video\Block\Sickle\SickleInvalidIntervalException;
 use Bob\M3U8\Video\Filename;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
@@ -51,7 +52,7 @@ class M3U8Test extends TestCase
     
     /**
      * @throws GuzzleException
-     * @throws \Bob\M3U8\Video\Block\Sickle\SickleInvalidIntervalException
+     * @throws SickleInvalidIntervalException
      */
     public function testClip()
     {
@@ -59,12 +60,19 @@ class M3U8Test extends TestCase
         $m3u8 = new M3U8($filename);
         $result = $m3u8->getTimeline()->clip(10, 20);
         $this->assertTrue($result->cut()->saveAs());
-//        $sickle = $result->merge();
-//        $block = $sickle->cut();
-//        $this->assertTrue($result->isSame());
-//        $this->assertEquals(10, $sickle->getStart());
-//        $this->assertEquals(20, $sickle->getEnd());
-//        $this->assertCount(1, $m3u8->getTimeline()->getBlocks());
-//        $this->assertEquals(10, $block->getLength());
+        $this->assertCount(1, $m3u8->getTimeline()->getBlocks());
+    }
+    
+    /**
+     * @throws GuzzleException
+     * @throws SickleInvalidIntervalException
+     */
+    public function testMerge()
+    {
+        $filename = new Filename("https://video3.futurelink.live/record/aliyun/en2/a.m3u8");
+        $m3u8 = new M3U8($filename);
+        $result = $m3u8->getTimeline()->merge(10, 20);
+        $this->assertTrue($result->cut()->saveAs());
+        $this->assertCount(9, $m3u8->getTimeline()->getBlocks());
     }
 }

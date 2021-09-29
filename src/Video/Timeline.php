@@ -99,11 +99,11 @@ class Timeline
     /**
      * @param float $start
      * @param float $end
-     * @return Cuttable
+     * @return MergeResult
      * @throws Sickle\SickleInvalidIntervalException
      * @throws Exception
      */
-    public function merge(float $start, float $end): Cuttable
+    public function merge(float $start, float $end): MergeResult
     {
         $this->invalidPoints($start, $end);
         $this->outOfTimelineLength($start);
