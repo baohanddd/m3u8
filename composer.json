@@ -1,0 +1,30 @@
+{
+    "name": "baohanddd/m3u8",
+    "description": "Support loading, parsing and clipping m3u8 files and cropping .ts files",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Bob\\M3U8\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "baohan",
+            "email": "baohanddd@gmail.com"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.3",
+        "chrisyue/php-m3u8": "^3.4",
+        "monolog/monolog": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
