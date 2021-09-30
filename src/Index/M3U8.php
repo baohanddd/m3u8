@@ -1,16 +1,15 @@
 <?php
 namespace Bob\M3U8\Index;
 
+use Bob\M3U8\Filename\InvalidFilenameAddress;
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Filename;
-use Bob\M3U8\Video\Timeline;
+use Bob\M3U8\Filename\Filename;
 use Chrisyue\PhpM3u8\Facade\ParserFacade;
 use Chrisyue\PhpM3u8\Stream\TextStream;
 use Closure;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use PHPUnit\TextUI\XmlConfiguration\File;
 
 /**
  * Class M3U8
@@ -95,7 +94,7 @@ class M3U8
      * Append another m3u8 file to it
      * @param string $address
      * @return $this
-     * @throws Filename\InvalidFilenameAddress
+     * @throws InvalidFilenameAddress
      * @throws GuzzleException
      * @throws Exception
      */
@@ -135,6 +134,14 @@ class M3U8
     public function getSegments(): array
     {
         return $this->segments;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->timeline;
     }
     
     /**

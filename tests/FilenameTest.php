@@ -1,7 +1,7 @@
 <?php
 namespace App\Test;
 
-use Bob\M3U8\Video\Filename;
+use Bob\M3U8\Filename\Filename;
 use PHPUnit\Framework\TestCase;
 
 class FilenameTest extends TestCase

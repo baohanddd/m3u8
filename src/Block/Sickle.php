@@ -1,17 +1,16 @@
 <?php
-namespace Bob\M3U8\Video\Block;
+namespace Bob\M3U8\Block;
 
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Block;
-use Bob\M3U8\Video\Block\Sickle\SickleInvalidIntervalException;
-use Bob\M3U8\Video\Block\Sickle\SickleInvalidPositionException;
+use Bob\M3U8\Block\Sickle\SickleInvalidIntervalException;
+use Bob\M3U8\Block\Sickle\SickleInvalidPositionException;
 use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
  * 镰刀切割器
  * Class Sickle
- * @package Bob\M3U8\Video\Block
+ * @package Bob\M3U8\Block\Block
  */
 class Sickle
 {
@@ -69,7 +68,7 @@ class Sickle
                 'start' => $start,
                 'end' => $end
             ]);
-            throw new SickleInvalidIntervalException('`start` should less than `end`...');
+            throw new SickleInvalidIntervalException($block, $start, $end);
         }
     }
 

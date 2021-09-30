@@ -1,10 +1,10 @@
 <?php
 namespace App\Test;
 
+use Bob\M3U8\Block\Sickle\SickleInvalidIntervalException;
 use Bob\M3U8\Index\M3U8;
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Block\Sickle\SickleInvalidIntervalException;
-use Bob\M3U8\Video\Filename;
+use Bob\M3U8\Filename\Filename;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
@@ -39,7 +39,6 @@ class M3U8Test extends TestCase
     
     /**
      * @param M3U8 $m3u8
-     * @throws Filename\InvalidFilenameAddress
      * @throws GuzzleException
      * @depends testLoadingM3U8FromUrl
      */

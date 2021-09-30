@@ -1,13 +1,10 @@
 <?php
-namespace Bob\M3U8\Video;
-
-use Bob\M3U8\Video\Filename\InvalidFilenameAddress;
-use Bob\M3U8\Video\Filename\Basename;
+namespace Bob\M3U8\Filename;
 
 /**
  * Class Filename
  * @example /www/htdocs/inc/lib.inc.php
- * @package Bob\M3U8\Video
+ * @package Bob\M3U8\Block
  */
 class Filename
 {

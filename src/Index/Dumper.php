@@ -2,8 +2,7 @@
 namespace Bob\M3U8\Index;
 
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Block;
-use Bob\M3U8\Video\Timeline;
+use Bob\M3U8\Block\Block;
 
 /**
  * dump m3u8 content out

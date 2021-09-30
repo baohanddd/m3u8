@@ -1,12 +1,14 @@
 <?php
-namespace Bob\M3U8\Video;
+namespace Bob\M3U8\Block;
 
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Filename\InvalidFilenameAddress;
+use Bob\M3U8\Index\Timeline;
+use Bob\M3U8\Filename\Filename;
+use Bob\M3U8\Filename\InvalidFilenameAddress;
 
 /**
  * Class Block
- * @package Bob\M3U8\Video
+ * @package Bob\M3U8\Block
  */
 class Block
 {
@@ -177,5 +179,13 @@ class Block
         $host = $this->cutFilename->getHost();
         Session::getLog()->debug("block domain: {$host}");
         return Session::isClippableDomain($host);
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->cutFilename;
     }
 }

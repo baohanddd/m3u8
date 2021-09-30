@@ -1,17 +1,17 @@
 <?php
 namespace App\Test;
 
-use Bob\M3U8\Video\Filename;
+use Bob\M3U8\Filename\Basename;
 use PHPUnit\Framework\TestCase;
 
 class FilenameBasenameTest extends TestCase
 {
     /**
-     * @return Filename\Basename
+     * @return Basename
      */
-    public function testIncreaseAndSuffix(): Filename\Basename
+    public function testIncreaseAndSuffix(): Basename
     {
-        $basename = new Filename\Basename("customize_filename.ts");
+        $basename = new Basename("customize_filename.ts");
         $basename->increase();
         $this->assertMatchesRegularExpression(
             '/customize_filename_clip_[0-9]{16}\.ts/', $basename);
@@ -23,12 +23,12 @@ class FilenameBasenameTest extends TestCase
     
     /**
      * @depends testIncreaseAndSuffix
-     * @param Filename\Basename $basename
+     * @param Basename $basename
      */
-    public function testClippedBasename(Filename\Basename $basename)
+    public function testClippedBasename(Basename $basename)
     {
         // customize_filename_clip_1632877945318919_copy.ts
-        $basename = new Filename\Basename($basename);
+        $basename = new Basename($basename);
         $basename->increase();
         $this->assertMatchesRegularExpression(
             '/customize_filename_clip_[0-9]{16}_copy\.ts/', $basename);

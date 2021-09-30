@@ -1,11 +1,11 @@
 <?php
-namespace Bob\M3U8\Video\Filename;
+namespace Bob\M3U8\Filename;
 
 use Exception;
 
 /**
  * Class InvalidFilenameAddress
- * @package Bob\M3U8\Video\Filename
+ * @package Bob\M3U8\Filename
  */
 class InvalidFilenameAddress extends Exception
 {

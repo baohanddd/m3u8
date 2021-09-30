@@ -1,15 +1,18 @@
 <?php
-namespace Bob\M3U8\Video;
+namespace Bob\M3U8\Index;
 
-use Bob\M3U8\Index\Segment;
+use Bob\M3U8\Filename\Filename;
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Block\Sickle;
+use Bob\M3U8\Block\Block;
+use Bob\M3U8\Block\Sickle;
+use Bob\M3U8\Block\ClipResult;
+use Bob\M3U8\Block\MergeResult;
 use Exception;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class Timeline
- * @package Bob\M3U8\Video
+ * @package Bob\M3U8\Block
  */
 class Timeline
 {
@@ -223,6 +226,15 @@ class Timeline
             $length += $block->getLength();
         }
         return $length;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $dumper = new Dumper();
+        return $dumper->dump($this);
     }
     
     /**

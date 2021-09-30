@@ -1,5 +1,5 @@
 <?php
-namespace Bob\M3U8\Video\Filename;
+namespace Bob\M3U8\Filename;
 
 use Bob\M3U8\Component\MicroTime;
 
@@ -7,7 +7,7 @@ use Bob\M3U8\Component\MicroTime;
  * Class Basename
  * @example 1618305544_96_1589298812510100.ts
  * @example merge-2021-04-23-08-22-30.m3u8
- * @package Bob\M3U8\Video\Filename
+ * @package Bob\M3U8\Filename
  */
 class Basename
 {

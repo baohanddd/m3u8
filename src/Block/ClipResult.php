@@ -1,13 +1,12 @@
 <?php
-namespace Bob\M3U8\Video;
+namespace Bob\M3U8\Block;
 
 use Bob\M3U8\Session;
-use Bob\M3U8\Video\Block\Sickle;
 use Exception;
 
 /**
  * Class ClipResult
- * @package Bob\M3U8\Video
+ * @package Bob\M3U8\Block
  */
 class ClipResult implements Cuttable
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Bob\M3U8\Index;
 
-use Bob\M3U8\Video\Filename;
+use Bob\M3U8\Filename\Filename;
 use Exception;
 
 /**
