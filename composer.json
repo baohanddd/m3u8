@@ -19,6 +19,9 @@
             "php": "7.4"
         }
     },
+    "scripts": {
+        "test": "phpunit --bootstrap=tests/bootstrap.php tests"
+    },
     "require": {
         "guzzlehttp/guzzle": "^7.3",
         "chrisyue/php-m3u8": "^3.4",
