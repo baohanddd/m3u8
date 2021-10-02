@@ -33,7 +33,8 @@ class M3U8Test extends TestCase
             Session::getLog()->debug("m3u8 content: {$content}");
             return "https://play.futurelink.live/{$uploadName}";
         };
-        $url = $m3u8->saveAs($uploader);
+        $m3u8->setIndexSaveHandler($uploader);
+        $url = $m3u8->saveAs();
         $this->assertStringContainsString('play.futurelink.live', $url);
     }
     

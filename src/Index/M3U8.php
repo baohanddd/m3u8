@@ -33,6 +33,16 @@ class M3U8
     protected Filename $filename;
     
     /**
+     * @var Closure
+     */
+    private Closure $indexSaver;
+    
+    /**
+     * @var Closure
+     */
+    private Closure $blockSaver;
+    
+    /**
      * M3U8 constructor.
      * @example https://fu-video.oss-cn-shanghai.aliyuncs.com/record/live110/en/2021-04-13-17-18-33_2021-04-13-17-20-48.m3u8
      * @param Filename $filename
@@ -76,15 +86,39 @@ class M3U8
     }
     
     /**
+     * @param Closure $handler
+     */
+    public function setIndexSaveHandler(Closure $handler)
+    {
+        $this->indexSaver = $handler;
+    }
+    
+    /**
+     * @param Closure $handler
+     */
+    public function setBlockSaveHandler(Closure $handler)
+    {
+        $this->blockSaver = $handler;
+    }
+    
+    /**
+     * @return Closure
+     */
+    public function getBlockSaver(): Closure
+    {
+        return $this->blockSaver;
+    }
+    
+    /**
      * 将视频索引文件另存为
-     * @param Closure $uploader
      * @return string
      */
-    public function saveAs(Closure $uploader): string
+    public function saveAs(): string
     {
         $dumper = new Dumper();
         $this->filename->increaseVersion();
-        return $uploader(
+        $handler = $this->indexSaver;
+        return $handler(
             $this->filename->getUploadName(),
             $dumper->dump($this->timeline)
         );

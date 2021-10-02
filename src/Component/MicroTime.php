@@ -24,8 +24,24 @@ class MicroTime
         $now = gettimeofday();
         $micro = new MicroTime();
         $micro->timestamp = $now['sec'];
-        $micro->usec = $now['usec'];
+        $micro->usec = str_pad($now['usec'], 6, 0, STR_PAD_RIGHT);
         return $micro;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getUsec(): int
+    {
+        return $this->usec;
     }
     
     /**
