@@ -23,7 +23,7 @@
         "test": "phpunit --bootstrap=tests/bootstrap.php tests"
     },
     "require": {
-        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/guzzle": "~6.0",
         "chrisyue/php-m3u8": "^3.4",
         "monolog/monolog": "^2.3"
     },
