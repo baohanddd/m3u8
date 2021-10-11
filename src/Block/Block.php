@@ -178,7 +178,7 @@ class Block
     {
         $host = $this->cutFilename->getHost();
         Session::getLog()->debug("block domain: {$host}");
-        return Session::isClippableDomain($host);
+        return $this->timeline->getM3u8()->isClippableDomain($host);
     }
     
     /**

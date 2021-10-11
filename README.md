@@ -1,7 +1,7 @@
 A library of M3U8
 ====
 
-can crop m3u8 and .ts files if necessary.
+crop m3u8 and .ts files if necessary.
 
 ## How to use?
 
@@ -11,6 +11,9 @@ can crop m3u8 and .ts files if necessary.
 # load m3u8 file from url...
 $filename = new Filename("https://video3.futurelink.live/record/aliyun/en2/a.m3u8");
 $m3u8 = new M3U8($filename);
+$m3u8->setFFMPEG('/data/bin/ffmpeg');
+$m3u8->addClippableDomain('video3.futurelink.live');
+$m3u8->addClippableDomain('video2.futurelink.live');
 // set save handler to persistent cropped blocks
 $m3u8->setBlockSaveHandler(function(string $saveName, string $tempName): string {
     echo $saveName . PHP_EOL;

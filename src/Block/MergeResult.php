@@ -105,14 +105,19 @@ class MergeResult implements Cuttable
         if ($block) $this->blocks[] = $block;
         return count($this->blocks);
     }
-
+    
     /**
      * @return bool
+     * @throws Exception
      */
     public function saveAs(): bool
     {
+        $blockSaver = $this->timeline->getM3u8()->blockSaver;
+        if (!$blockSaver) {
+            throw new Exception('employ $m3u8->setBlockSaveHandler() first before save block...', 500);
+        }
         foreach ($this->blocks as $block) {
-            $block->saveAs(Session::getBlockUploader());
+            $block->saveAs($blockSaver);
         }
         return true;
     }
@@ -135,29 +140,5 @@ class MergeResult implements Cuttable
         if ($end->getBlock()->clippable()) {
             $this->end = $end;
         }
-    }
-
-    /**
-     * @return Block[]
-     */
-    public function getBlocks(): array
-    {
-        return $this->blocks;
-    }
-
-    /**
-     * @return Sickle|null
-     */
-    public function getStart(): ?Sickle
-    {
-        return $this->start;
-    }
-
-    /**
-     * @return Sickle|null
-     */
-    public function getEnd(): ?Sickle
-    {
-        return $this->end;
     }
 }

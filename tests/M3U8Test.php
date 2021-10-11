@@ -2,6 +2,7 @@
 namespace App\Test;
 
 use Bob\M3U8\Block\Sickle\SickleInvalidIntervalException;
+use Bob\M3U8\Filename\InvalidFilenameAddress;
 use Bob\M3U8\Index\M3U8;
 use Bob\M3U8\Session;
 use Bob\M3U8\Filename\Filename;
@@ -30,7 +31,7 @@ class M3U8Test extends TestCase
     public function testSaveAs(M3U8 $m3u8)
     {
         $uploader = function(string $uploadName, string $content): string {
-            Session::getLog()->debug("m3u8 content: {$content}");
+            Session::getLog()->notice("m3u8 content: {$content}");
             return "https://play.futurelink.live/{$uploadName}";
         };
         $m3u8->setIndexSaveHandler($uploader);
@@ -41,6 +42,7 @@ class M3U8Test extends TestCase
     /**
      * @param M3U8 $m3u8
      * @throws GuzzleException
+     * @throws InvalidFilenameAddress
      * @depends testLoadingM3U8FromUrl
      */
     public function testAppend(M3U8 $m3u8)
@@ -58,6 +60,13 @@ class M3U8Test extends TestCase
     {
         $filename = new Filename("https://video3.futurelink.live/record/aliyun/en2/a.m3u8");
         $m3u8 = new M3U8($filename);
+        $m3u8->setFFMPEG('/data/bin/ffmpeg');
+        $m3u8->addClippableDomain('video3.futurelink.live');
+        $m3u8->setBlockSaveHandler(function (string $saveName, string $tempName) {
+            Session::getLog()->notice("block save name: {$saveName}");
+            Session::getLog()->notice("block temp name: {$tempName}");
+            return "https://video3.futurelink.live/record/aliyun/en2/another.ts";
+        });
         $result = $m3u8->getTimeline()->clip(10, 20);
         $this->assertTrue($result->cut()->saveAs());
         $this->assertCount(1, $m3u8->getTimeline()->getBlocks());
@@ -71,6 +80,13 @@ class M3U8Test extends TestCase
     {
         $filename = new Filename("https://video3.futurelink.live/record/aliyun/en2/a.m3u8");
         $m3u8 = new M3U8($filename);
+        $m3u8->setFFMPEG('/data/bin/ffmpeg');
+        $m3u8->addClippableDomain('video3.futurelink.live');
+        $m3u8->setBlockSaveHandler(function (string $saveName, string $tempName) {
+            Session::getLog()->notice("block save name: {$saveName}");
+            Session::getLog()->notice("block temp name: {$tempName}");
+            return "https://video3.futurelink.live/record/aliyun/en2/another.ts";
+        });
         $result = $m3u8->getTimeline()->merge(10, 20);
         $this->assertTrue($result->cut()->saveAs());
         $this->assertCount(9, $m3u8->getTimeline()->getBlocks());

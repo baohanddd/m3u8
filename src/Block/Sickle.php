@@ -1,6 +1,7 @@
 <?php
 namespace Bob\M3U8\Block;
 
+use Bob\M3U8\Index\M3U8;
 use Bob\M3U8\Session;
 use Bob\M3U8\Block\Sickle\SickleInvalidIntervalException;
 use Bob\M3U8\Block\Sickle\SickleInvalidPositionException;
@@ -107,17 +108,20 @@ class Sickle
         $this->block->setLength($this->end - $this->start);
         return $this->block;
     }
-
+    
     /**
      * @param string $sourceAddress
      * @param string $destinationAddress
      * @param string $sp
      * @param string $ep
      * @return bool
+     * @throws Exception
      */
     protected function ffmpegCommand(string $sourceAddress, string $destinationAddress, string $sp, string $ep): bool
     {
-        $bin = Session::getFFMPEG();
+        $bin = M3U8::$ffmpeg;
+        if (!$bin) throw new Exception('need set $m3u8->setFFMPEG(string $binPath); first...', 500);
+        if (!file_exists($bin)) throw new Exception('ffmpeg bin path is invalid...', 500);
         $command = "{$bin} -i {$sourceAddress} -ss {$sp} -to {$ep} -c copy -avoid_negative_ts make_zero {$destinationAddress} 2>&1";
         $out = shell_exec($command);
 

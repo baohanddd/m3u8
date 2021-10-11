@@ -1,6 +1,7 @@
 <?php
 namespace Bob\M3U8\Block;
 
+use Bob\M3U8\Index\Timeline;
 use Bob\M3U8\Session;
 use Exception;
 
@@ -24,6 +25,21 @@ class ClipResult implements Cuttable
      * @var Block[]
      */
     protected array $blocks = [];
+    
+    /**
+     * @var Timeline
+     */
+    protected Timeline $timeline;
+    
+    /**
+     * ClipResult constructor.
+     * @param Timeline $timeline
+     */
+    public function __construct(Timeline $timeline)
+    {
+        $this->log = Session::getLog();
+        $this->timeline = $timeline;
+    }
 
     /**
      * @return bool
@@ -74,14 +90,19 @@ class ClipResult implements Cuttable
         if ($block) $this->blocks[] = $block;
         return count($this->blocks);
     }
-
+    
     /**
      * @return bool
+     * @throws Exception
      */
     public function saveAs(): bool
     {
+        $blockSaver = $this->timeline->getM3u8()->blockSaver;
+        if (!$blockSaver) {
+            throw new Exception('employ $m3u8->setBlockSaveHandler() first before save block...', 500);
+        }
         foreach ($this->blocks as $block) {
-            $block->saveAs(Session::getBlockUploader());
+            $block->saveAs($blockSaver);
         }
         return true;
     }
@@ -104,29 +125,5 @@ class ClipResult implements Cuttable
         if ($end->getBlock()->clippable()) {
             $this->end = $end;
         }
-    }
-
-    /**
-     * @return Block[]
-     */
-    public function getBlocks(): array
-    {
-        return $this->blocks;
-    }
-
-    /**
-     * @return Sickle|null
-     */
-    public function getStart(): ?Sickle
-    {
-        return $this->start;
-    }
-
-    /**
-     * @return Sickle|null
-     */
-    public function getEnd(): ?Sickle
-    {
-        return $this->end;
     }
 }

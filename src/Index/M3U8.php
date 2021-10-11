@@ -40,7 +40,19 @@ class M3U8
     /**
      * @var Closure
      */
-    private Closure $blockSaver;
+    public Closure $blockSaver;
+    
+    /**
+     * hosts who can be clipped.
+     * @var array
+     */
+    private array $hosts = [];
+    
+    /**
+     * path of ffmpeg bin file
+     * @var string
+     */
+    public static string $ffmpeg = "";
     
     /**
      * M3U8 constructor.
@@ -69,7 +81,7 @@ class M3U8
             throw new InvalidM3U8Data($filename, $content);
         
         $previous = null;
-        $this->timeline = new Timeline();
+        $this->timeline = new Timeline($this);
         foreach ($mediaPlaylist['mediaSegments'] as $section) {
             try {
                 $segment = new Segment($filename, $section, $previous);
@@ -102,11 +114,28 @@ class M3U8
     }
     
     /**
-     * @return Closure
+     * @param string $binPath
      */
-    public function getBlockSaver(): Closure
+    public function setFFMPEG(string $binPath)
     {
-        return $this->blockSaver;
+        static::$ffmpeg = $binPath;
+    }
+    
+    /**
+     * @param string $domain
+     */
+    public function addClippableDomain(string $domain)
+    {
+        $this->hosts[] = $domain;
+    }
+    
+    /**
+     * @param string $host
+     * @return bool
+     */
+    public function isClippableDomain(string $host): bool
+    {
+        return in_array($host, $this->hosts);
     }
     
     /**

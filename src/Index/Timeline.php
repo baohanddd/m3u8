@@ -32,9 +32,18 @@ class Timeline
      */
     private LoggerInterface $log;
     
-    public function __construct()
+    /**
+     * @var M3U8
+     */
+    private M3U8 $m3U8;
+    
+    /**
+     * @param M3U8 $m3u8
+     */
+    public function __construct(M3U8 $m3u8)
     {
         $this->log = Session::getLog();
+        $this->m3u8 = $m3u8;
     }
 
     /**
@@ -62,7 +71,7 @@ class Timeline
         $this->outOfTimelineLength($start);
         $this->outOfTimelineLength($end);
         
-        $result = new ClipResult();
+        $result = new ClipResult($this);
         
         $pass = 0.0;
         foreach ($this->getBlocks() as $idx => $block) {
@@ -226,6 +235,14 @@ class Timeline
             $length += $block->getLength();
         }
         return $length;
+    }
+    
+    /**
+     * @return M3U8
+     */
+    public function getM3u8(): M3U8
+    {
+        return $this->m3u8;
     }
     
     /**
