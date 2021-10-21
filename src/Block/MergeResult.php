@@ -1,6 +1,7 @@
 <?php
 namespace Bob\M3U8\Block;
 
+use Bob\M3U8\Filename\InvalidFilenameAddress;
 use Bob\M3U8\Session;
 use Bob\M3U8\Index\Timeline;
 use Exception;
@@ -54,10 +55,11 @@ class MergeResult implements Cuttable
     {
         return $this->start && ($this->start->getBlock() === $this->end->getBlock());
     }
-
+    
     /**
      * merge two sickles if have same block
      * @throws Sickle\SickleInvalidIntervalException
+     * @throws InvalidFilenameAddress
      */
     public function merge(): void
     {

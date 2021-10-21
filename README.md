@@ -31,10 +31,12 @@ $m3u8->setIndexSaveHandler(function(string $m3u8Name, string $content): string {
 # drop clips before 10 seconds and after 200 seconds...
 $start = 10.0;
 $end = 200.0;
+$m3u8->load($filename);
 $m3u8->getTimeline()->clip($start, $end)->cut()->saveAs();
 
 # save clips between start and end...
 $start = 10.0;
 $end = 200.0;
+$m3u8->load($filename);
 $m3u8->getTimeline()->merge($start, $end)->cut()->saveAs();
 ```
