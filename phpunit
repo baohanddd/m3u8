@@ -1,2 +1,2 @@
 #!/bin/bash
-docker run --rm -it -v=$(pwd):/data -w=/data cli:74 phpunit --bootstrap tests/bootstrap.php $*
+docker run --rm -it -v=$(pwd):/data -w=/data php:74 phpunit --bootstrap tests/bootstrap.php $*
