@@ -122,7 +122,7 @@ class Sickle
         $bin = M3U8::$ffmpeg;
         if (!$bin) throw new Exception('need set $m3u8->setFFMPEG(string $binPath); first...', 500);
         if (!file_exists($bin)) throw new Exception('ffmpeg bin path is invalid...', 500);
-        $command = "{$bin} -i {$sourceAddress} -ss {$sp} -to {$ep} -c copy -avoid_negative_ts make_zero {$destinationAddress} 2>&1";
+        $command = "{$bin} -i {$sourceAddress} -ss {$sp} -to {$ep} -c:a aac -c:v libx264 {$destinationAddress} 2>&1";
         $out = shell_exec($command);
 
         Session::getLog()->debug('FFMPEG Command', [$command]);
