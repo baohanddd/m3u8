@@ -80,6 +80,7 @@ class Sickle
     public function cut(): ?Block
     {
         $filename = $this->block->getCutFilename();
+        $m3u8 = $this->block->getTimeline()->getM3u8();
         
         // when `merge` on the same block and start equals zero...
         if ($this->start == 0 && $this->end == 0) {
@@ -97,9 +98,14 @@ class Sickle
             return $this->block;
         }
 
+        $saveFilename = $this->block->getSaveFilename();
+        $saveFilename->increaseVersion();
+        $temporary = $m3u8->getSavePath() . '/' . $saveFilename->getUploadName();
+        Session::getLog()->debug('Temporary = '.$temporary);
         $this->ffmpegCommand(
             $filename->toString(),
-            $filename->getTemporary(),
+//            $filename->getTemporary(),
+            $temporary,
             $this->calcPosition($this->start),
             $this->calcPosition($this->end)
         );
@@ -123,9 +129,8 @@ class Sickle
         if (!$bin) throw new Exception('need set $m3u8->setFFMPEG(string $binPath); first...', 500);
         if (!file_exists($bin)) throw new Exception('ffmpeg bin path is invalid...', 500);
         $command = "{$bin} -i {$sourceAddress} -ss {$sp} -to {$ep} -c:a aac -c:v libx264 {$destinationAddress} 2>&1";
-        $out = shell_exec($command);
-
         Session::getLog()->debug('FFMPEG Command', [$command]);
+        $out = shell_exec($command);
         Session::getLog()->debug('Block Length: '.$this->block->getLength());
         Session::getLog()->debug('Start Position: '.$sp);
         Session::getLog()->debug('End Position: '.$ep);

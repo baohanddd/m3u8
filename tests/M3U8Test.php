@@ -51,44 +51,4 @@ class M3U8Test extends TestCase
         $m3u8->append($address);
         $this->assertCount(579, $m3u8->getTimeline()->getBlocks());
     }
-    
-    /**
-     * @throws GuzzleException
-     * @throws SickleInvalidIntervalException
-     */
-    public function testClip()
-    {
-        $filename = new Filename("https://video3.futurelink.live/record/aliyun/en2/a.m3u8");
-        $m3u8 = new M3U8($filename);
-        $m3u8->setFFMPEG('/data/bin/ffmpeg');
-        $m3u8->addClippableDomain('video3.futurelink.live');
-        $m3u8->setBlockSaveHandler(function (string $saveName, string $tempName) {
-            Session::getLog()->notice("block save name: {$saveName}");
-            Session::getLog()->notice("block temp name: {$tempName}");
-            return "https://video3.futurelink.live/record/aliyun/en2/another.ts";
-        });
-        $result = $m3u8->getTimeline()->clip(10, 20);
-        $this->assertTrue($result->cut()->saveAs());
-        $this->assertCount(1, $m3u8->getTimeline()->getBlocks());
-    }
-    
-    /**
-     * @throws GuzzleException
-     * @throws SickleInvalidIntervalException
-     */
-    public function testMerge()
-    {
-        $filename = new Filename("https://video3.futurelink.live/record/aliyun/en2/a.m3u8");
-        $m3u8 = new M3U8($filename);
-        $m3u8->setFFMPEG('/data/bin/ffmpeg');
-        $m3u8->addClippableDomain('video3.futurelink.live');
-        $m3u8->setBlockSaveHandler(function (string $saveName, string $tempName) {
-            Session::getLog()->notice("block save name: {$saveName}");
-            Session::getLog()->notice("block temp name: {$tempName}");
-            return "https://video3.futurelink.live/record/aliyun/en2/another.ts";
-        });
-        $result = $m3u8->getTimeline()->merge(10, 20);
-        $this->assertTrue($result->cut()->saveAs());
-        $this->assertCount(9, $m3u8->getTimeline()->getBlocks());
-    }
 }

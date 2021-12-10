@@ -49,10 +49,16 @@ class M3U8
     private array $hosts = [];
     
     /**
+     * save path prefix
+     * @var string
+     */
+    private string $savePath = "/tmp";
+    
+    /**
      * path of ffmpeg bin file
      * @var string
      */
-    public static string $ffmpeg = "";
+    public static string $ffmpeg = "/usr/bin/ffmpeg";
     
     /**
      * M3U8 constructor.
@@ -111,6 +117,18 @@ class M3U8
     public function setBlockSaveHandler(Closure $handler)
     {
         $this->blockSaver = $handler;
+    }
+    
+    /**
+     * The path where video clip saved
+     * It allows local path or a valid file address on network
+     * @example /oss/video3
+     * @example /tmp
+     * @param string $path
+     */
+    public function setSavePath(string $path)
+    {
+        $this->savePath = rtrim($path, '/');
     }
     
     /**
@@ -189,6 +207,14 @@ class M3U8
     public function getFilename(): Filename
     {
         return $this->filename;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getSavePath(): string
+    {
+        return $this->savePath;
     }
 
     /**

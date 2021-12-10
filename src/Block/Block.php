@@ -56,18 +56,19 @@ class Block
      * 和前后block都不连续
      */
     const DISCONTINUITY_BOTH = 3;
-
+    
     /**
      * Block constructor.
      * @param Timeline $timeline
      * @param Filename $filename https://fu-video.oss-cn-shanghai.aliyuncs.com/record/live110/en/1618305544_96.ts
      * @param float $length
+     * @throws InvalidFilenameAddress
      */
     public function __construct(Timeline $timeline, Filename $filename, float $length = 0)
     {
         $this->timeline = $timeline;
         $this->cutFilename = $filename;
-        $this->saveFilename = $filename;
+        $this->saveFilename = new Filename($filename);
         $this->length   = $length;
     }
 
@@ -150,24 +151,24 @@ class Block
     /**
      * @return string URL of block
      */
-    public function saveAs(\Closure $uploader): string
-    {
-        $tempName   = $this->cutFilename->getTemporary();
-                      if (!file_exists($tempName)) return "";
-                      $this->saveFilename->increaseVersion();
-        $uploadName = $this->saveFilename->getUploadName();
-        
-        return $uploader($uploadName, $tempName);
-
-//        AlibabaSdk::getOssClient()->uploadFile($_ENV['VideoBucket'], $uploadName, $tempName);
-
-//        Session::getLog()->debug('Temporary Name: ', [$tempName]);
-//        Session::getLog()->debug('Upload OK...', [$uploadName]);
-        
-//        return $url;
-
-//        return "https://{$_ENV['PlaybackDomain']}/{$uploadName}";
-    }
+//    public function saveAs(\Closure $uploader): string
+//    {
+//        $tempName   = $this->cutFilename->getTemporary();
+//                      if (!file_exists($tempName)) return "";
+//                      $this->saveFilename->increaseVersion();
+//        $uploadName = $this->saveFilename->getUploadName();
+//
+//        return $uploader($uploadName, $tempName);
+//
+////        AlibabaSdk::getOssClient()->uploadFile($_ENV['VideoBucket'], $uploadName, $tempName);
+//
+////        Session::getLog()->debug('Temporary Name: ', [$tempName]);
+////        Session::getLog()->debug('Upload OK...', [$uploadName]);
+//
+////        return $url;
+//
+////        return "https://{$_ENV['PlaybackDomain']}/{$uploadName}";
+//    }
 
     /**
      * Only process blocks on video3.futurelink.live
