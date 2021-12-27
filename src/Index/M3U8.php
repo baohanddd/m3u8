@@ -82,18 +82,18 @@ class M3U8
         $mediaPlaylist = $parser->parse(new TextStream($content));
         $log->debug('parse m3u8 ...ok');
         
-        $total = 0;
         if (!isset($mediaPlaylist['mediaSegments']))
             throw new InvalidM3U8Data($filename, $content);
         
+        $total = count($mediaPlaylist['mediaSegments']);
         $previous = null;
         $this->timeline = new Timeline($this);
-        foreach ($mediaPlaylist['mediaSegments'] as $section) {
+        foreach ($mediaPlaylist['mediaSegments'] as $i => $section) {
             try {
                 $segment = new Segment($filename, $section, $previous);
                 $this->segments[] = $segment;
                 $previous = $segment;
-                $total++;
+                if ($i + 1 == $total) $segment->setDisContinuity(true);
                 $this->timeline->addSegment($segment);
             } catch (InvalidSegmentData $e) {
                 $log->warning($e->getMessage());
