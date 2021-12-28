@@ -88,16 +88,19 @@ class M3U8
         $total = count($mediaPlaylist['mediaSegments']);
         $previous = null;
         $this->timeline = new Timeline($this);
-        foreach ($mediaPlaylist['mediaSegments'] as $i => $section) {
+        foreach ($mediaPlaylist['mediaSegments'] as $section) {
             try {
                 $segment = new Segment($filename, $section, $previous);
                 $this->segments[] = $segment;
                 $previous = $segment;
-                if ($i + 1 == $total) $segment->setDisContinuity(true);
-                $this->timeline->addSegment($segment);
             } catch (InvalidSegmentData $e) {
                 $log->warning($e->getMessage());
             }
+        }
+        
+        foreach ($this->segments as $i => $segment) {
+            if ($i + 1 == $total) $segment->setDisContinuity(true);
+            $this->timeline->addSegment($segment);
         }
         
         $log->debug("m3u8 have segment total: $total");
