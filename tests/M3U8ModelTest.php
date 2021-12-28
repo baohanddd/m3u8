@@ -3,6 +3,7 @@ namespace App\Test;
 
 use Bob\M3U8\Index\M3U8;
 use Bob\M3U8\Filename\Filename;
+use Bob\M3U8\Session;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
@@ -17,11 +18,16 @@ class M3U8ModelTest extends TestCase
         $address = "https://fu-video3.oss-cn-shenzhen.aliyuncs.com/record/live/61ca88544e641c3b275f3f7b/2021-12-28-11-45-48_2021-12-28-12-15-48_clip_1640666756707082.m3u8";
         $filename = new Filename($address);
         $m3u8 = new M3U8($filename);
+        $segments = $m3u8->getSegments();
         $blocks = $m3u8->getTimeline()->getBlocks();
+        foreach ($segments as $idx => $segment) {
+            echo "M3U8: index(" . $idx . ") -> " .(int) $segment->isDisContinuity() . ' -> ' . $blocks[$idx]->getDiscontinuity() . PHP_EOL;
+        }
         $this->assertEquals(1, $blocks[55]->getDiscontinuity());
         $this->assertEquals(1, $blocks[68]->getDiscontinuity());
         $this->assertEquals(1, $blocks[80]->getDiscontinuity());
         $this->assertEquals(1, $blocks[96]->getDiscontinuity());
+        $this->assertEquals(1, $blocks[113]->getDiscontinuity());
         return $m3u8;
     }
 }

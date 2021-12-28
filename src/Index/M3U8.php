@@ -85,7 +85,6 @@ class M3U8
         if (!isset($mediaPlaylist['mediaSegments']))
             throw new InvalidM3U8Data($filename, $content);
         
-        $total = count($mediaPlaylist['mediaSegments']);
         $previous = null;
         $this->timeline = new Timeline($this);
         foreach ($mediaPlaylist['mediaSegments'] as $section) {
@@ -97,9 +96,12 @@ class M3U8
                 $log->warning($e->getMessage());
             }
         }
-        
+        $total = count($this->segments);
         foreach ($this->segments as $i => $segment) {
-            if ($i + 1 == $total) $segment->setDisContinuity(true);
+            if ($i + 1 == $total) {
+                Session::getLog()->debug('SET THE LAST SEGMENT IS DISCONTINUITY');
+                $segment->setDisContinuity(true);
+            }
             $this->timeline->addSegment($segment);
         }
         
