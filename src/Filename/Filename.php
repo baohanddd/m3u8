@@ -107,7 +107,11 @@ class Filename
      */
     public function getUrlWithoutFilename(): string
     {
-        return "{$this->scheme}://{$this->host}{$this->dirname}";
+        if ($this->dirname === '/') {
+            return "{$this->scheme}://{$this->host}";
+        } else {
+            return "{$this->scheme}://{$this->host}{$this->dirname}";
+        }
     }
     
     /**
@@ -181,5 +185,13 @@ class Filename
     public function __toString(): string
     {
         return $this->toString();
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
     }
 }
