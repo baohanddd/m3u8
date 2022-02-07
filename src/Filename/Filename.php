@@ -153,7 +153,11 @@ class Filename
     {
         $dirname = $this->dirname;
         if ($dirname[0] == '/') $dirname = substr($dirname, 1, strlen($dirname));
-        return $dirname.'/'.$this->basename;
+        if ($dirname == '') {
+            return $this->basename;
+        } else {
+            return $dirname.'/'.$this->basename;
+        }
     }
 
     /**

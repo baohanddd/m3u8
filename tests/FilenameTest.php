@@ -17,6 +17,20 @@ class FilenameTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testGetUploadName()
+    {
+        $address = "https://image.chinafuturelink.org/005432501ce61b490ec75522296e0c6a.m3u8";
+        $filename = new Filename($address);
+        $this->assertEquals('005432501ce61b490ec75522296e0c6a.m3u8', $filename->getUploadName());
+
+        $address = "https://image.chinafuturelink.org/dir1/dir2/005432501ce61b490ec75522296e0c6a.m3u8";
+        $filename = new Filename($address);
+        $this->assertEquals('dir1/dir2/005432501ce61b490ec75522296e0c6a.m3u8', $filename->getUploadName());
+    }
+
+    /**
      * @return Filename
      */
     public function testFilename(): Filename
