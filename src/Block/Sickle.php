@@ -93,10 +93,10 @@ class Sickle
             return null;
         }
         
-        if (!$this->tooSmallInterval()) {
-            Session::getLog()->debug('skip to cut', ["The `end` - `start` <= {$this->min_interval} sec of {$filename->getBasename()}"]);
-            return $this->block;
-        }
+//        if (!$this->tooSmallInterval()) {
+//            Session::getLog()->debug('skip to cut', ["The `end` - `start` <= {$this->min_interval} sec of {$filename->getBasename()}"]);
+//            return $this->block;
+//        }
 
         $saveFilename = $this->block->getSaveFilename();
         $saveFilename->increaseVersion();
