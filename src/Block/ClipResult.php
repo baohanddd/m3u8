@@ -46,7 +46,7 @@ class ClipResult implements Cuttable
      */
     public function isSame(): bool
     {
-        return $this->start && ($this->start->getBlock() === $this->end->getBlock());
+        return $this->start && $this->end && ($this->start->getBlock() === $this->end->getBlock());
     }
 
     /**
