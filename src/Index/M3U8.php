@@ -86,11 +86,13 @@ class M3U8
             throw new InvalidM3U8Data($filename, $content);
         
         $previous = null;
+        $length = 0.0; // total length (float)
         $this->timeline = new Timeline($this);
         foreach ($mediaPlaylist['mediaSegments'] as $section) {
             try {
                 $segment = new Segment($filename, $section, $previous);
                 $this->segments[] = $segment;
+                $length += $segment->getDuration();
                 $previous = $segment;
             } catch (InvalidSegmentData $e) {
                 $log->warning($e->getMessage());
@@ -106,6 +108,7 @@ class M3U8
         }
         
         $log->debug("m3u8 have segment total: $total");
+        $log->debug("m3u8 have total of length: $length");
     }
     
     /**
